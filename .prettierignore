@@ -1,0 +1,5 @@
+dist
+prototype
+node_modules
+src/model/__fixtures__
+package-lock.json
