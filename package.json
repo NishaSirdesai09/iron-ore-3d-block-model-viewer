@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "golden": "node scripts/extract-golden.mjs"
+    "golden": "node scripts/extract-golden.mjs",
+    "report": "vite-node scripts/report.ts"
   },
   "dependencies": {
     "@react-three/drei": "^9.114.0",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.14.0",
+    "@types/pdfmake": "^0.2.9",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/three": "^0.169.0",
@@ -33,10 +35,12 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.12.0",
+    "pdfmake": "^0.2.14",
     "prettier": "^3.3.3",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.13.0",
     "vite": "^5.4.10",
+    "vite-node": "^2.1.4",
     "vitest": "^2.1.4"
   }
 }

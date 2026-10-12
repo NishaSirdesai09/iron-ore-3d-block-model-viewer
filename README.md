@@ -165,6 +165,17 @@ ranked targets at two cut-offs, and the effect of a planned hole.
 npm run lint
 ```
 
+## Resource report
+
+```bash
+npm run report
+```
+
+Writes `reports/Fe-resource-report.pdf`: tonnes, share, Fe grade, confidence and chance above
+cut-off for each rock type; ore by occurrence; a grade-tonnage table; and the drill holes with their
+best intercepts. Pass another cut-off with `npm run report -- 55`. The numbers come from
+`src/model/report.ts` and are marked throughout as synthetic.
+
 ## Building and deploying
 
 ```bash
