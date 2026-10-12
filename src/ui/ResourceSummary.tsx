@@ -4,6 +4,7 @@ import { fmtMt, summarize } from "../model/estimate";
 import { getLease } from "../model/lease";
 import { OCC_COL, STAGE_COL, STAGE_LABEL } from "../scene/colors";
 import { useStore } from "../state/store";
+import { DownloadReportButton } from "./DownloadReportButton";
 
 const lease = getLease();
 
@@ -49,6 +50,12 @@ export function ResourceSummary() {
         <p className="hint">
           Confidence stages follow the spirit of India&apos;s UNFC geological axis (G1 detailed
           exploration to G4 reconnaissance), mapped here from drill spacing.
+        </p>
+        <div className="btnrow" style={{ marginTop: 12 }}>
+          <DownloadReportButton />
+        </div>
+        <p className="hint">
+          Tonnes, grade and confidence for every rock type at the current cut-off, as a PDF.
         </p>
       </section>
       <section className="sec">

@@ -1,6 +1,7 @@
 import { useRef, type KeyboardEvent } from "react";
 import type { Tab } from "../model/types";
 import { effectiveTheme, useStore } from "../state/store";
+import { DownloadReportButton } from "./DownloadReportButton";
 import { panelId, tabId } from "./tabs";
 
 const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
@@ -60,6 +61,7 @@ export function Header() {
             </button>
           ))}
         </div>
+        <DownloadReportButton className="btn report" />
         <button
           className="btn theme"
           onClick={toggleTheme}

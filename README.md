@@ -167,14 +167,21 @@ npm run lint
 
 ## Resource report
 
+Click **Download report (PDF)** in the header, or under *Resource above cut-off* on the Model
+tab. The report uses the cut-off currently set on the slider; the PDF library loads only on the
+first click.
+
+The same report can be written from the command line:
+
 ```bash
 npm run report
 ```
 
-Writes `reports/Fe-resource-report.pdf`: tonnes, share, Fe grade, confidence and chance above
+This writes `reports/Fe-resource-report.pdf`: tonnes, share, Fe grade, confidence and chance above
 cut-off for each rock type; ore by occurrence; a grade-tonnage table; and the drill holes with their
 best intercepts. Pass another cut-off with `npm run report -- 55`. The numbers come from
-`src/model/report.ts` and are marked throughout as synthetic.
+`src/model/report.ts` and the layout from `src/report/reportDocument.ts`, shared by both. Every
+page is marked as synthetic.
 
 ## Building and deploying
 

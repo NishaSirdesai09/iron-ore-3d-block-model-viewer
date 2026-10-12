@@ -182,6 +182,14 @@ nav [role="tab"][aria-selected="true"] {
   border-color: var(--line);
   background: var(--panel2);
 }
+nav .report {
+  margin-left: 8px;
+  white-space: nowrap;
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
 nav .theme {
   margin-left: 8px;
   width: 34px;
