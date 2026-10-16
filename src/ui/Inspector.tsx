@@ -1,6 +1,14 @@
-import { CI, CJ, CK, RL, col } from "../model/grid";
+import { CELL_X, CELL_Y, CELL_Z, CI, CJ, CK, RL, col } from "../model/grid";
 import { OCC_NAME, TYPE_NAME } from "../model/geology";
-import { cellTonnes, margin, probAbove, sigma, stageOf } from "../model/estimate";
+import {
+  CELL_STATUS_LABEL,
+  cellStatus,
+  cellTonnes,
+  margin,
+  probAbove,
+  sigma,
+  stageOf,
+} from "../model/estimate";
 import { getLease } from "../model/lease";
 import { selectActiveConf, useStore } from "../state/store";
 
@@ -34,6 +42,10 @@ export function Inspector() {
     const ore = t > 1;
     body = (
       <dl className="kv">
+        <dt>Cell</dt>
+        <dd>
+          {i}, {j}, {k} · {CELL_X} × {CELL_Y} × {CELL_Z} m
+        </dd>
         <dt>Position</dt>
         <dd>
           E {i * 25} m, N {j * 25} m
@@ -62,6 +74,8 @@ export function Inspector() {
             <dd>
               {c.toFixed(2)}, G{stageOf(c)}
             </dd>
+            <dt>Status</dt>
+            <dd>{CELL_STATUS_LABEL[cellStatus(P, c)]}</dd>
           </>
         )}
         <dt>Tonnes in cell</dt>

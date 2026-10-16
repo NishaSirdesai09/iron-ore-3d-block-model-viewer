@@ -55,6 +55,8 @@ export interface FeState {
   sel: number | null;
   /** Cell under the mouse. */
   hover: number | null;
+  /** Pointer position over the 3D view, in CSS pixels from its top-left, while hovering a cell. */
+  hoverPos: { x: number; y: number } | null;
   log: LogSpec | null;
   /** Highlighted target, by column, so it survives re-ranking only if the same column is still a target. */
   activeTarget: { i: number; j: number } | null;
@@ -138,6 +140,7 @@ export const useStore = create<FeState>()((set, get) => ({
   scenario: false,
   sel: null,
   hover: null,
+  hoverPos: null,
   log: holeLog(firstHole),
   activeTarget: null,
   planned: [],

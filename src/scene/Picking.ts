@@ -92,7 +92,12 @@ export function usePicking(refs: SceneRefs) {
         Math.hypot(e.clientX - down.x, e.clientY - down.y) > CLICK_SLOP
       )
         down.moved = true;
-      if (e.pointerType !== "mouse" || e.buttons) return;
+      if (e.pointerType !== "mouse") return;
+      // Hide the hover card while orbiting or panning.
+      if (e.buttons) {
+        if (useStore.getState().hoverPos) useStore.getState().set({ hover: null, hoverPos: null });
+        return;
+      }
       lastMove = e;
       if (hoverFrame) return;
       hoverFrame = requestAnimationFrame(() => {
@@ -100,7 +105,10 @@ export function usePicking(refs: SceneRefs) {
         if (!lastMove) return;
         const p = pick(lastMove);
         const hover = p.kind === "cell" ? p.cell : null;
-        if (useStore.getState().hover !== hover) useStore.getState().set({ hover });
+        const r = el.getBoundingClientRect();
+        const hoverPos =
+          hover == null ? null : { x: lastMove.clientX - r.left, y: lastMove.clientY - r.top };
+        useStore.getState().set({ hover, hoverPos });
       });
     };
     const onUp = (e: PointerEvent) => {
@@ -110,7 +118,7 @@ export function usePicking(refs: SceneRefs) {
     };
     const onLeave = () => {
       lastMove = null;
-      useStore.getState().set({ hover: null });
+      useStore.getState().set({ hover: null, hoverPos: null });
     };
     const onContext = (e: Event) => e.preventDefault();
 

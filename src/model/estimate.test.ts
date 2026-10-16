@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { Phi, erf, price, sigma, stageOf } from "./estimate";
+import { Phi, cellStatus, erf, price, sigma, stageOf } from "./estimate";
 
 describe("normal CDF", () => {
   it("matches standard table values", () => {
@@ -46,6 +46,16 @@ describe("price curve", () => {
       expect(price(g)).toBeGreaterThanOrEqual(last);
       last = price(g);
     }
+  });
+});
+
+describe("cellStatus", () => {
+  it("splits on a 50% chance and the G2 confidence boundary", () => {
+    expect(cellStatus(0.87, 0.82)).toBe("defined-ore");
+    expect(cellStatus(0.77, 0.24)).toBe("speculative");
+    expect(cellStatus(0.03, 0.67)).toBe("tested-low");
+    expect(cellStatus(0.2, 0.1)).toBe("unknown");
+    expect(cellStatus(0.5, 0.5)).toBe("defined-ore");
   });
 });
 

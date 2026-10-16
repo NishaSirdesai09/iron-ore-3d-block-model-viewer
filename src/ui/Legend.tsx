@@ -140,6 +140,7 @@ export function Legend() {
           {showFloat && <Chip color={FLOAT_COL} label="Float ore" />}
         </div>
       )}
+      <p className="cellsize">Each cell is 25 m × 25 m × 10 m (east × north × depth)</p>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import { DrillLog } from "./ui/DrillLog";
 import { DrillPlanPanel } from "./ui/DrillPlanPanel";
 import { GuidePanel } from "./ui/GuidePanel";
 import { Header } from "./ui/Header";
+import { HoverCard } from "./ui/HoverCard";
 import { panelId, tabId } from "./ui/tabs";
 import { Inspector } from "./ui/Inspector";
 import { Legend } from "./ui/Legend";
@@ -72,6 +73,7 @@ export function App() {
         )}
         <Compass />
         <Legend />
+        <HoverCard />
       </main>
       <DrillLog />
       <aside className="right" aria-label="Details">

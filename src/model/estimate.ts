@@ -35,6 +35,26 @@ export const stageOf = (c: number): Stage => (c >= 0.75 ? 1 : c >= 0.5 ? 2 : c >
 export const probAbove = (est: number, c: number, cut: number): number =>
   Phi((est - cut) / sigma(c));
 
+export type CellStatus = "defined-ore" | "speculative" | "tested-low" | "unknown";
+
+/**
+ * Plain-language status from the two numbers a user should read together. Both splits are
+ * at 0.5: a 50% chance of beating the cut-off, and the G2 confidence boundary.
+ */
+export function cellStatus(chance: number, conf: number): CellStatus {
+  const likelyOre = chance >= 0.5;
+  const known = conf >= 0.5;
+  if (likelyOre) return known ? "defined-ore" : "speculative";
+  return known ? "tested-low" : "unknown";
+}
+
+export const CELL_STATUS_LABEL: Record<CellStatus, string> = {
+  "defined-ore": "Defined ore: G1–G2",
+  speculative: "Speculative: needs drilling",
+  "tested-low": "Below cut-off: well tested",
+  unknown: "Unknown: little data",
+};
+
 /** Estimated grade for every solid cell. Waste keeps its true grade. */
 export function estimateGrades(
   solid: ArrayLike<number>,

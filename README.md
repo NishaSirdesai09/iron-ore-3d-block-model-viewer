@@ -206,3 +206,12 @@ Behaviour, copy and numbers follow the prototype. These deliberate fixes are the
 - The drill log redraws once the Archivo font loads, so its labels use the right font.
 - Tabs follow the WAI-ARIA tabs pattern (arrow keys, `aria-controls`); target headings are `h3`.
 - The camera uses OrbitControls with the prototype's limits, so drag sensitivity differs slightly.
+
+Added after the port:
+
+- A hover card next to the cursor: cell index (i, j, k), depth, grade ± sigma, chance above
+  cut-off and confidence bars, east/north position, cell size and tonnes, and a status badge.
+  The badge splits at a 50% chance and at confidence 0.5 (the G2 boundary): *Defined ore*,
+  *Speculative: needs drilling*, *Below cut-off: well tested*, or *Unknown: little data*.
+  The pinned inspector shows the same status and cell size, and the legend states the cell size.
+- A Download report (PDF) button.
