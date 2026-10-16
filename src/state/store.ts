@@ -18,6 +18,10 @@ export interface Palette {
   muted: string;
   line: string;
   focus: string;
+  core: string;
+  rc: string;
+  planned: string;
+  float: string;
 }
 
 export interface CameraRequest {

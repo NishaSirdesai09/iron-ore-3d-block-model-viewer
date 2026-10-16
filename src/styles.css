@@ -14,7 +14,11 @@
   --canvas: #dde1e6;
   --tile: #1e232a;
   --tileText: #f3efe6;
-  --rockWaste: #9aa0a7;
+  --rockWaste: #6b727b;
+  --core: #0f8076;
+  --rc: #1e232a;
+  --planned: #6a3fc4;
+  --float: #7a2a78;
   --ok: #3f7d3a;
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
@@ -45,7 +49,11 @@
     --canvas: #181c21;
     --tile: #ebe7df;
     --tileText: #1f242b;
-    --rockWaste: #545b64;
+    --rockWaste: #4a5058;
+    --core: #2fb8a9;
+    --rc: #f2f5f8;
+    --planned: #b49af5;
+    --float: #e070b5;
     --ok: #86c172;
     color-scheme: dark;
   }
@@ -65,7 +73,11 @@
   --canvas: #181c21;
   --tile: #ebe7df;
   --tileText: #1f242b;
-  --rockWaste: #545b64;
+  --rockWaste: #4a5058;
+  --core: #2fb8a9;
+  --rc: #f2f5f8;
+  --planned: #b49af5;
+  --float: #e070b5;
   --ok: #86c172;
   color-scheme: dark;
 }
@@ -464,8 +476,8 @@ aside {
   font-family: "Archivo", system-ui, sans-serif;
 }
 .tag.planned {
-  background: var(--text);
-  color: var(--panel);
+  background: var(--planned);
+  color: var(--tileText);
 }
 
 .hovercard {

@@ -1,7 +1,6 @@
 import { OCC_NAME } from "../model/geology";
 import {
   COLOR_MODES,
-  FLOAT_COL,
   OCC_COL,
   RAMPS,
   STAGE_COL,
@@ -134,10 +133,10 @@ export function Legend() {
       {body}
       {showHoles && (
         <div className="chips" style={{ marginTop: 8 }}>
-          <Chip color={palette.ochre} label="Core hole" />
-          <Chip color={palette.steel} label="RC hole" />
-          {hasPlanned && <Chip color={palette.text} label="Planned" />}
-          {showFloat && <Chip color={FLOAT_COL} label="Float ore" />}
+          <Chip color={palette.core} label="Core hole" />
+          <Chip color={palette.rc} label="RC hole" />
+          {hasPlanned && <Chip color={palette.planned} label="Planned" />}
+          {showFloat && <Chip color={palette.float} label="Float ore" />}
         </div>
       )}
       <p className="cellsize">Each cell is 25 m × 25 m × 10 m (east × north × depth)</p>

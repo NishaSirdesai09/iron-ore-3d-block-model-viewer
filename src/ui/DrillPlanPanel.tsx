@@ -100,7 +100,7 @@ function Plan() {
       <div className="rows">
         {planned.map((h, a) => (
           <div key={h.id}>
-            <i style={{ background: palette?.text }} />
+            <i style={{ background: palette?.planned }} />
             <span>
               {h.id}, E {h.i * 25} N {h.j * 25}
             </span>

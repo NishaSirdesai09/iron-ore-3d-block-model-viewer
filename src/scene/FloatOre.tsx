@@ -1,9 +1,9 @@
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { getLease } from "../model/lease";
 import { wx, wz } from "../model/grid";
 import { useStore } from "../state/store";
-import { FLOAT_COL } from "./colors";
 import { surfaceY } from "./geom";
 
 const lease = getLease();
@@ -14,7 +14,14 @@ export function FloatOre() {
   const show = useStore((s) => s.showFloat);
   const count = lease.floats.length;
   const geometry = useMemo(() => new THREE.IcosahedronGeometry(1, 0), []);
-  const material = useMemo(() => new THREE.MeshLambertMaterial({ color: FLOAT_COL }), []);
+  const color = useStore((st) => st.palette?.float ?? "#e070b5");
+  const invalidate = useThree((st) => st.invalidate);
+  const material = useMemo(() => new THREE.MeshLambertMaterial(), []);
+
+  useEffect(() => {
+    material.color.set(color);
+    invalidate();
+  }, [material, color, invalidate]);
 
   useLayoutEffect(() => {
     const m = mesh.current!;

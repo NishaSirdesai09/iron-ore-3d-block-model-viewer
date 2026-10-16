@@ -26,6 +26,10 @@ function readPalette(): Palette {
     muted: v("--muted", "#888888"),
     line: v("--line", "#d0d5db"),
     focus: v("--focus", "#ffffff"),
+    core: v("--core", "#2fb8a9"),
+    rc: v("--rc", "#f2f5f8"),
+    planned: v("--planned", "#b49af5"),
+    float: v("--float", "#e070b5"),
   };
 }
 

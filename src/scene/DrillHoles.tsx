@@ -50,10 +50,10 @@ export function DrillHoles({ refs }: { refs: SceneRefs }) {
       }}
     >
       {lease.holes.map((h) => (
-        <HoleMesh key={h.id} h={h} color={h.kind === "RC" ? palette.steel : palette.ochre} />
+        <HoleMesh key={h.id} h={h} color={h.kind === "RC" ? palette.rc : palette.core} />
       ))}
       {planned.map((h) => (
-        <HoleMesh key={h.id} h={h} color={palette.text} />
+        <HoleMesh key={h.id} h={h} color={palette.planned} />
       ))}
     </group>
   );
