@@ -57,6 +57,8 @@ export interface FeState {
   hover: number | null;
   /** Pointer position over the 3D view, in CSS pixels from its top-left, while hovering a cell. */
   hoverPos: { x: number; y: number } | null;
+  /** Occurrence codes picked in the legend; other cells are dimmed. Empty means none picked. */
+  occFocus: number[];
   log: LogSpec | null;
   /** Highlighted target, by column, so it survives re-ranking only if the same column is still a target. */
   activeTarget: { i: number; j: number } | null;
@@ -79,6 +81,7 @@ export interface FeState {
   flyTo: (req: Omit<CameraRequest, "nonce">) => void;
   toggleTheme: () => void;
   resetSlices: () => void;
+  toggleOcc: (o: number) => void;
 }
 
 const lease = getLease();
@@ -141,6 +144,7 @@ export const useStore = create<FeState>()((set, get) => ({
   sel: null,
   hover: null,
   hoverPos: null,
+  occFocus: [],
   log: holeLog(firstHole),
   activeTarget: null,
   planned: [],
@@ -200,6 +204,11 @@ export const useStore = create<FeState>()((set, get) => ({
       const current = s.themeOverride ?? (s.systemDark ? "dark" : "light");
       return { themeOverride: current === "dark" ? "light" : "dark" };
     }),
+
+  toggleOcc: (o) =>
+    set((s) => ({
+      occFocus: s.occFocus.includes(o) ? s.occFocus.filter((x) => x !== o) : [...s.occFocus, o],
+    })),
 
   resetSlices: () => set({ sx: NX - 1, sy: NY - 1, sz: NZ - 1 }),
 }));

@@ -25,6 +25,7 @@ export function CellBlocks({ refs }: { refs: SceneRefs }) {
   const sz = useStore((s) => s.sz);
   const palette = useStore((s) => s.palette);
   const conf = useStore(selectActiveConf);
+  const occFocus = useStore((s) => s.occFocus);
 
   const geometry = useMemo(() => new THREE.BoxGeometry(0.95, VE * 0.95, 0.95), []);
   const material = useMemo(() => new THREE.MeshLambertMaterial({ color: 0xffffff }), []);
@@ -48,6 +49,9 @@ export function CellBlocks({ refs }: { refs: SceneRefs }) {
     const M = new THREE.Matrix4();
     const color = new THREE.Color();
     const opts = { mode, cut, fade, palette };
+    // Legend picks: dim every cell whose occurrence was not picked.
+    const focus = mode === "occ" && occFocus.length ? new Set(occFocus) : null;
+    const bg = new THREE.Color(palette.canvas);
     const vis: number[] = [];
     let a = 0;
     for (let s = 0; s < solid.length; s++) {
@@ -60,7 +64,9 @@ export function CellBlocks({ refs }: { refs: SceneRefs }) {
       M.makeTranslation(wx(CI[n]), wy(CK[n]), wz(CJ[n]));
       m.setMatrixAt(a, M);
       const c = cellColor(lease, n, conf, opts);
-      m.setColorAt(a, color.setRGB(c[0], c[1], c[2]));
+      color.setRGB(c[0], c[1], c[2]);
+      if (focus && !focus.has(lease.occ[n])) color.lerp(bg, 0.85);
+      m.setColorAt(a, color);
       vis.push(n);
       a++;
     }
@@ -72,7 +78,7 @@ export function CellBlocks({ refs }: { refs: SceneRefs }) {
     m.boundingBox = null;
     refs.visList = vis;
     invalidate();
-  }, [mode, rock, cut, minc, fade, sx, sy, sz, palette, conf, refs, invalidate]);
+  }, [mode, rock, cut, minc, fade, sx, sy, sz, palette, conf, occFocus, refs, invalidate]);
 
   return (
     <instancedMesh

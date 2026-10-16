@@ -418,6 +418,33 @@ aside {
   border-radius: 2px;
   flex: none;
 }
+.chip.pick {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: none;
+  padding: 2px 4px;
+  margin: -3px -5px;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: left;
+}
+.chip.pick:hover {
+  border-color: var(--line);
+}
+.chip.pick[aria-pressed="true"] {
+  border-color: var(--text);
+  background: var(--panel2);
+  font-weight: 600;
+}
+.linkbtn {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--ochre);
+  cursor: pointer;
+  font-size: 11px;
+  text-decoration: underline;
+}
 .compass {
   position: absolute;
   right: 14px;

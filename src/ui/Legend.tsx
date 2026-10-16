@@ -47,6 +47,9 @@ export function Legend() {
   const showFloat = useStore((s) => s.showFloat);
   const hasPlanned = useStore((s) => s.planned.length > 0);
   const palette = useStore((s) => s.palette);
+  const occFocus = useStore((s) => s.occFocus);
+  const toggleOcc = useStore((s) => s.toggleOcc);
+  const set = useStore((s) => s.set);
   if (!palette) return null;
 
   const m = COLOR_MODES.find((x) => x.value === mode)!;
@@ -107,12 +110,30 @@ export function Legend() {
     );
   else if (mode === "occ")
     body = (
-      <div className="chips">
-        {[1, 2, 3, 4, 5].map((o) => (
-          <Chip key={o} color={OCC_COL[o]} label={OCC_NAME[o]} />
-        ))}
-        <Chip color={palette.rockWaste} label="Waste" />
-      </div>
+      <>
+        <div className="chips" role="group" aria-label="Highlight occurrences">
+          {[1, 2, 3, 4, 5, 0].map((o) => (
+            <button
+              key={o}
+              className="chip pick"
+              aria-pressed={occFocus.includes(o)}
+              onClick={() => toggleOcc(o)}
+            >
+              <i style={{ background: o ? OCC_COL[o] : palette.rockWaste }} />
+              {OCC_NAME[o]}
+            </button>
+          ))}
+        </div>
+        <p className="cellsize">
+          {occFocus.length ? (
+            <button className="linkbtn" onClick={() => set({ occFocus: [] })}>
+              Clear highlight
+            </button>
+          ) : (
+            "Click names to highlight those cells"
+          )}
+        </p>
+      </>
     );
   else
     body = (

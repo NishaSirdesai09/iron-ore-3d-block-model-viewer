@@ -66,7 +66,7 @@ export const RAMPS = {
 } as const satisfies Record<string, Ramp>;
 
 /** Occurrence colours, indexed by occurrence code. */
-export const OCC_COL = ["#6c727a", "#a8321f", "#e0823d", "#5872a6", "#b37a3c", "#8f969e"] as const;
+export const OCC_COL = ["#6c727a", "#a8321f", "#ff7f0e", "#5872a6", "#b37a3c", "#8f969e"] as const;
 /** UNFC stage colours, indexed 1..4. */
 export const STAGE_COL = ["", "#efdcaa", "#c99a3e", "#86663a", "#4a433b"] as const;
 export const STAGE_LABEL = [
