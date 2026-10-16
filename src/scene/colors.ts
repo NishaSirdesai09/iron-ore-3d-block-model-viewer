@@ -66,9 +66,7 @@ export const RAMPS = {
 } as const satisfies Record<string, Ramp>;
 
 /** Occurrence colours, indexed by occurrence code. */
-// Chosen to stay apart from each other and from the drill-hole and float-ore colours, using
-// lightness as well as hue so they also separate for most colour-blind viewers.
-export const OCC_COL = ["#6c727a", "#b8321f", "#f08a3c", "#4f74c4", "#e9cf5f", "#a3aab3"] as const;
+export const OCC_COL = ["#6c727a", "#a8321f", "#e0823d", "#5872a6", "#b37a3c", "#8f969e"] as const;
 /** UNFC stage colours, indexed 1..4. */
 export const STAGE_COL = ["", "#efdcaa", "#c99a3e", "#86663a", "#4a433b"] as const;
 export const STAGE_LABEL = [
@@ -78,6 +76,7 @@ export const STAGE_LABEL = [
   "G3 prospecting",
   "G4 reconnaissance",
 ] as const;
+export const FLOAT_COL = "#8a2f22";
 const NEUTRAL = "#3b3f46";
 
 export const COLOR_MODES: ReadonlyArray<{ value: ColorMode; label: string; desc: string }> = [

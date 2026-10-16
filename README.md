@@ -215,7 +215,3 @@ Added after the port:
   *Speculative: needs drilling*, *Below cut-off: well tested*, or *Unknown: little data*.
   The pinned inspector shows the same status and cell size, and the legend states the cell size.
 - A Download report (PDF) button.
-- A clearer colour scheme. Pocket deposits, lateritic ore and core holes no longer share an orange
-  tone, and reef ore and float ore are no longer both dark red. Lateritic ore is yellow, core holes
-  teal, RC holes white (black in light mode), planned holes violet and float ore pink (plum in
-  light mode). Low-grade BHQ and waste are now clearly different greys in light mode.
