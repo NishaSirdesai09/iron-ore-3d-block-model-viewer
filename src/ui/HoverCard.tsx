@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { CELL_X, CELL_Y, CELL_Z, CI, CJ, CK, col } from "../model/grid";
-import { TYPE_NAME, WASTE } from "../model/geology";
+import { BHQ, HEMATITE, OCC_NAME, WASTE } from "../model/geology";
+import { OCC_COL } from "../scene/colors";
 import {
   CELL_STATUS_LABEL,
   cellStatus,
@@ -14,6 +15,14 @@ import { selectActiveConf, useStore } from "../state/store";
 
 const lease = getLease();
 const OFFSET = 16;
+
+/** Host rock shown after the occurrence name, when it adds information. */
+function occurrenceRock(t: number): string | null {
+  if (t === HEMATITE) return "in hematite";
+  if (t === WASTE) return "phyllite, shale";
+  if (t === BHQ) return "banded hematite quartzite";
+  return null; // blue dust and lateritic ore are named after their rock
+}
 
 function Meter({
   label,
@@ -43,6 +52,7 @@ export function HoverCard() {
   const pos = useStore((s) => s.hoverPos);
   const cut = useStore((s) => s.cut);
   const conf = useStore(selectActiveConf);
+  const waste = useStore((st) => st.palette?.rockWaste ?? "#6c727a");
   const card = useRef<HTMLDivElement>(null);
   const [place, setPlace] = useState({ left: 0, top: 0 });
 
@@ -60,7 +70,7 @@ export function HoverCard() {
 
   if (n == null || !pos) return null;
 
-  const { type, est, ktop } = lease;
+  const { type, est, ktop, occ } = lease;
   const i = CI[n];
   const j = CJ[n];
   const k = CK[n];
@@ -87,8 +97,13 @@ export function HoverCard() {
           {from}–{from + CELL_Z} m deep
         </span>
       </div>
+      <div className="hc-occ">
+        <i style={{ background: ore ? OCC_COL[occ[n]] : waste }} aria-hidden="true" />
+        <b>{OCC_NAME[occ[n]]}</b>
+        {occurrenceRock(t) && <span>{occurrenceRock(t)}</span>}
+      </div>
       <div className="hc-sub">
-        {TYPE_NAME[t]} · {est[n].toFixed(1)}% Fe{ore ? ` ± ${sigma(c).toFixed(1)}` : ""}
+        {est[n].toFixed(1)}% Fe{ore ? ` ± ${sigma(c).toFixed(1)}` : ""} estimated grade
       </div>
       {ore && (
         <Meter

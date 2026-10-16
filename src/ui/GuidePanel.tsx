@@ -1,3 +1,11 @@
+import { fmtMt } from "../model/estimate";
+import { getLease } from "../model/lease";
+import { occurrenceProfiles } from "../model/report";
+import { OCC_COL } from "../scene/colors";
+
+/** Ranked once: the lease never changes after start-up. */
+const PROFILES = occurrenceProfiles(getLease());
+
 export function GuidePanel() {
   return (
     <div className="about">
@@ -80,6 +88,55 @@ export function GuidePanel() {
             </p>
           </div>
         </div>
+      </section>
+      <section className="sec" aria-labelledby="rank-h">
+        <h2 id="rank-h">Occurrences ranked by grade</h2>
+        <table className="rank">
+          <thead>
+            <tr>
+              <th scope="col">Occurrence</th>
+              <th scope="col">Fe range</th>
+              <th scope="col">Avg Fe</th>
+              <th scope="col">Purity*</th>
+            </tr>
+          </thead>
+          <tbody>
+            {PROFILES.map((p, a) => (
+              <tr key={p.occ}>
+                <th scope="row">
+                  <span className="rank-name">
+                    <em>{a + 1}</em>
+                    <i style={{ background: p.occ ? OCC_COL[p.occ] : "var(--rockWaste)" }} />
+                    {p.name}
+                  </span>
+                  <small>
+                    {fmtMt(p.tonnes)} Mt · {p.estMin.toFixed(0)}–{p.estMax.toFixed(0)}% found
+                  </small>
+                </th>
+                <td>
+                  {p.range[0]}–{p.range[1]}%
+                </td>
+                <td>{p.grade.toFixed(1)}%</td>
+                <td>{p.occ ? `${Math.round(p.purity * 100)}%` : "–"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="hint">
+          <b>Fe range</b> is the true iron content each rock is generated with. Estimates can stray
+          a little outside it where drilling is sparse; the small text shows the range actually
+          found in the model, and its tonnes.
+        </p>
+        <p className="hint">
+          <b>*Purity</b> is the share of hematite (Fe<sub>2</sub>O<sub>3</sub>) the average grade
+          implies: Fe% ÷ 69.9, because pure hematite is 69.9% Fe. It is an approximation; the iron
+          in laterite is often goethite rather than hematite, and waste is not rated.
+        </p>
+        <p className="hint">
+          In Indian trade, hematite ore is commonly called high grade at 65% Fe or more, medium
+          grade at 62–65% and low grade below 62%. Reef and pocket ore have similar grades; pockets
+          rank lower in practice because they are small, less drilled and harder to mine.
+        </p>
       </section>
       <section className="sec">
         <h2>What is simulated</h2>

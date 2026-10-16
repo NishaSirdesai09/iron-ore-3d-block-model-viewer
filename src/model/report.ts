@@ -1,4 +1,4 @@
-import { BHQ, OCC_NAME, TYPE_NAME } from "./geology";
+import { BHQ, GRADE_RANGE, OCC_NAME, TYPE_NAME } from "./geology";
 import { cellTonnes, isResource, probAbove, stageOf, summarize } from "./estimate";
 import { bestIntercept, columnLog, interceptGrade } from "./planning";
 import { holeLengthM } from "./holes";
@@ -137,4 +137,62 @@ export function buildReport(lease: Lease, cut: number): LeaseReport {
     holes,
     floatFragments: lease.floats.length,
   };
+}
+
+/** Iron content of pure hematite (Fe2O3): 2 × 55.845 / (2 × 55.845 + 3 × 15.999). */
+export const HEMATITE_FE = (2 * 55.845) / (2 * 55.845 + 3 * 15.999);
+
+export interface OccurrenceProfile {
+  occ: number;
+  name: string;
+  rock: string;
+  /** Designed true-grade range of the host rock, % Fe. */
+  range: readonly [number, number];
+  /** Lowest and highest estimated grade found in the model, % Fe. */
+  estMin: number;
+  estMax: number;
+  /** Tonnage-weighted mean estimated grade, % Fe. */
+  grade: number;
+  /** Approximate hematite content implied by the mean grade, 0..1. */
+  purity: number;
+  tonnes: number;
+  conf: number;
+}
+
+const OCC_ROCK = [1, 3, 3, 4, 5, 2] as const;
+
+/** Every occurrence (waste included), ranked from richest to poorest by mean estimated grade. */
+export function occurrenceProfiles(lease: Lease): OccurrenceProfile[] {
+  const { solid, type, est, occ, baseConf } = lease;
+  return [0, 1, 2, 3, 4, 5]
+    .map((o) => {
+      let T = 0;
+      let G = 0;
+      let C = 0;
+      let lo = Infinity;
+      let hi = -Infinity;
+      for (const n of solid) {
+        if (occ[n] !== o) continue;
+        const t = cellTonnes(type, n);
+        T += t;
+        G += t * est[n];
+        C += t * baseConf[n];
+        lo = Math.min(lo, est[n]);
+        hi = Math.max(hi, est[n]);
+      }
+      const grade = T ? G / T : 0;
+      return {
+        occ: o,
+        name: OCC_NAME[o],
+        rock: TYPE_NAME[OCC_ROCK[o]],
+        range: GRADE_RANGE[OCC_ROCK[o]],
+        estMin: lo,
+        estMax: hi,
+        grade,
+        purity: grade / 100 / HEMATITE_FE,
+        tonnes: T,
+        conf: T ? C / T : 0,
+      };
+    })
+    .sort((a, b) => b.grade - a.grade);
 }

@@ -27,6 +27,19 @@ export const OCC_NAME = [
   "Low-grade BHQ",
 ] as const;
 
+/**
+ * True grade range (% Fe) of each rock type, indexed by rock code. Generated grades are clamped
+ * to these bounds; estimates can stray slightly outside them where confidence is low.
+ */
+export const GRADE_RANGE: ReadonlyArray<readonly [number, number]> = [
+  [0, 0], // air
+  [4, 24], // waste
+  [26, 47], // BHQ
+  [57, 67.5], // hematite
+  [63, 67.6], // blue dust
+  [40, 58], // laterite
+];
+
 /** Connected hematite/blue dust bodies smaller than this many cells are pockets. */
 export const POCKET_MAX_CELLS = 70;
 
@@ -84,22 +97,22 @@ export function rockModel(
         if (Math.abs(j - center) < hw) {
           if (depth <= 1 && e > 0.4) {
             t = LATERITE;
-            g = clamp(46 + (e - 0.4) * 40 + gauss() * 2, 40, 58);
+            g = clamp(46 + (e - 0.4) * 40 + gauss() * 2, ...GRADE_RANGE[LATERITE]);
           } else if (e > 0.58) {
             if (e > 0.63 && depth > 2 && fbm(i * 0.3, j * 0.3, k * 0.3 + 9) > 0.56) {
               t = BLUE_DUST;
-              g = clamp(64.6 + gauss() * 0.8, 63, 67.6);
+              g = clamp(64.6 + gauss() * 0.8, ...GRADE_RANGE[BLUE_DUST]);
             } else {
               t = HEMATITE;
-              g = clamp(59.5 + (e - 0.58) * 65 + gauss() * 1.2, 57, 67.5);
+              g = clamp(59.5 + (e - 0.58) * 65 + gauss() * 1.2, ...GRADE_RANGE[HEMATITE]);
             }
           } else {
             t = BHQ;
-            g = clamp(31 + (e - 0.3) * 42 + gauss() * 2.5, 26, 47);
+            g = clamp(31 + (e - 0.3) * 42 + gauss() * 2.5, ...GRADE_RANGE[BHQ]);
           }
         } else {
           t = WASTE;
-          g = clamp(7 + 14 * rand(), 4, 24);
+          g = clamp(7 + 14 * rand(), ...GRADE_RANGE[WASTE]);
         }
         type[n] = t;
         fe[n] = g;
